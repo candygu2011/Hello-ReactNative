@@ -6,7 +6,7 @@
 
 var React = require('react-native');
 // var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
-var REQUEST_URL = 'http://platform.sina.com.cn/sports_all/client_api?app_key=3571367214&_sport_t_=football&_sport_s_=opta&_sport_a_=teamOrder&type=213&season=2015&format=json';
+var REQUEST_URL = 'http://c.3g.163.com/nc/article/list/T1348648517839/0-20.html';
 
 var {
   AppRegistry,
@@ -35,7 +35,7 @@ var MovieList = React.createClass({
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource:this.state.dataSource.cloneWithRows(responseData.result.data),
+          dataSource:this.state.dataSource.cloneWithRows(responseData.T1348648517839),
           loaded:true,
         });
       })
@@ -54,15 +54,15 @@ var MovieList = React.createClass({
       );
   },
 
-  renderMovie:function(team) {
+  renderMovie:function(item) {
       return (
-        <TouchableHighlight  onPress={() => this._pressRow(team.team_id)}>
+        <TouchableHighlight  onPress={() => this._pressRow(item)}>
         <View>
-           <View style={styles.container} key={team.team_id}>
-            <Image source = {{uri:team.logo}} style={styles.thumbnail}/>
+           <View style={styles.container} key={item}>
+            <Image source = {{uri:item.imgsrc}} style={styles.thumbnail}/>
             <View style =  {styles.rightContainer}>
-              <Text style={styles.title}>{team.team_cn}</Text>
-              <Text style={styles.year}>{team.score}</Text>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.digest}>{item.digest}</Text>
             </View>
           </View>
           <View style={styles.separator}></View>
@@ -71,10 +71,11 @@ var MovieList = React.createClass({
        
       );
    },
-   _pressRow:function(rowID:number) {
+   _pressRow:function(item) {
     this.props.navigator.push({
       title:'Detail',
-      component:DetailView
+      component:DetailView,
+      passProps:{item}
     })
    },
 
@@ -100,8 +101,8 @@ var styles = StyleSheet.create({
 
   },
    thumbnail:{
-    width: 53,
-    height:81,
+    width: 135,
+    height:100,
   },
   rightContainer:{
     flex:1,
@@ -111,9 +112,13 @@ var styles = StyleSheet.create({
     fontFamily:'Arial',
     textAlign:'center',
   },
-  year:{
-    fontSize:10,
-    textAlign:'center',
+
+  digest:{
+    fontSize:13,
+    textAlign:'left',
+    color:'#888888',
+    paddingLeft:10,
+
   },
   listView:{
     paddingTop:64,
