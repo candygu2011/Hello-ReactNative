@@ -1,1 +1,1 @@
-![image](https://github.com/candygu2011/Hello-ReactNative/tree/master/gif/hello.gif)
+![演示动画](https://github.com/candygu2011/Hello-ReactNative/blob/master/gif/hello.gif)
