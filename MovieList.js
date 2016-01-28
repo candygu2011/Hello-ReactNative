@@ -17,7 +17,8 @@ var {
   ListView,
   TouchableHighlight,
 } = React;
-var DetailView = require('./DetailView');
+var DetailView = require('./NewsDetail');
+var loadingView = require('./ActivityIndicatorLoading');
 var MovieList = React.createClass({
   getInitialState: function() {
     return {
@@ -73,7 +74,7 @@ var MovieList = React.createClass({
    },
    _pressRow:function(item) {
     this.props.navigator.push({
-      title:'Detail',
+      title:item.title,
       component:DetailView,
       passProps:{item}
     })
