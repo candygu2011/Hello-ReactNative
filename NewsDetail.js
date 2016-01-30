@@ -1,6 +1,8 @@
 'use strict';
 var React = require('react-native');
-var REQUESTURL = 'http://c.3g.163.com/nc/article/BEE2FH9R00031GVS/full.html';
+// var REQUESTURL = 'http://c.3g.163.com/nc/article/BEE2FH9R00031GVS/full.html';
+var PREFIX = 'http://c.3g.163.com/nc/article/';
+var SUFFIX = '/full.html';
 // var REQUESTURL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var {
 	StyleSheet,
@@ -13,22 +15,25 @@ var {
 var NewDetail = React.createClass({
 
 	getInitialState:function(){
-		var keyStr = this.props.item.postid;
+		console.log('getInitialState');
 		return {
 			news:null,
 			loaded:false,
 		};
 	},
 	componentDidMount: function() {
+		console.log('componentDidMount');
 	    this.fetchData();
 	  },
  	 fetchData: function() {
+ 	 	var item = this.props.item;
+		var REQUESTURL = PREFIX + item.postid + SUFFIX;
+		console.log('-----------------',REQUESTURL);
 	    fetch(REQUESTURL)
 	      .then((response) => response.json())
 	      .then((responseData) => {
-	      	console.log('parsed json', news);
 	       this.setState({
-		      news: responseData.BEE2FH9R00031GVS,
+		      news: responseData, // key 是可变的item.postid
 		      loaded:true,
 		    });
 	      })
@@ -36,14 +41,15 @@ var NewDetail = React.createClass({
 	  },
 
 	render:function(){
+		// var item = this.props.item;
 		if (!this.state.loaded) {
 			return this.renderLoadingView();
 		};
 		return (
 	      <View style={styles.container}>
-	        <Image source={{uri:this.props.item}} style={styles.thumbnail}/>
+	        <Image source={{uri:this.props.item.imgsrc}} style={styles.thumbnail}/>
 	        <View>
-	          <Text>{news.body}</Text>
+	          <Text style={styles.contentText}>{this.props.item.digest}</Text>
 	        </View>
          </View>
 	    );
@@ -92,6 +98,13 @@ var styles = StyleSheet.create({
 	    justifyContent: 'flex-start',
 	    alignItems: 'flex-start',
 	    backgroundColor: '#F5FCFF',
+	  },
+
+	  contentText:{
+	  	fontSize:13,
+	    fontFamily:'Arial',
+	    textAlign:'center',
+	    paddingLeft:10,
 	  },
 });
 

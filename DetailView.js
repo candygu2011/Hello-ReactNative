@@ -48,7 +48,7 @@ var DetailView = React.createClass({
 	      </View>
 	    );
 	  },
-	   renderLoadingView:function() {
+	  renderLoadingView:function() {
       return(
         <View style={styles.container}>
           <Text>
